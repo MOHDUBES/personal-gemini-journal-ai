@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile in the application",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "photoURL": { "type": "string", "description": "Profile avatar URL" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" },
+        "lastLoginAt": { "type": "string", "format": "date-time", "description": "Last login timestamp" }
+      },
+      "required": ["uid", "createdAt"]
+    },
+    "JournalInteraction": {
+      "title": "JournalInteraction",
+      "description": "Private multi-turn journal or reflection interaction stored under users/{userId}/interactions/{interactionId}",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique interaction identifier" },
+        "userId": { "type": "string", "description": "Owner Firebase UID" },
+        "title": { "type": "string", "description": "Interaction title or reflection topic" },
+        "mode": { "type": "string", "enum": ["reflection", "brainstorm", "summary", "gratitude", "freeform"], "description": "Reflection mode" },
+        "mood": { "type": "string", "description": "Optional mood indicator" },
+        "tags": { "type": "array", "items": { "type": "string" }, "description": "Tags or keywords" },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "role": { "type": "string", "enum": ["user", "model"] },
+              "content": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            },
+            "required": ["role", "content", "timestamp"]
+          },
+          "description": "Multi-turn conversation with user prompt and Gemini response"
+        },
+        "summary": { "type": "string", "description": "AI-generated executive summary and insights" },
+        "keyTakeaways": { "type": "array", "items": { "type": "string" }, "description": "Key takeaways or action items" },
+        "modelUsed": { "type": "string", "description": "Gemini model version used for generation" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last updated timestamp" }
+      },
+      "required": ["id", "userId", "title", "messages", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "rules": "rules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    match /users/{userId} {\n      allow read, write: if request.auth != null && request.auth.uid == userId;\n    }\n    match /users/{userId}/interactions/{interactionId} {\n      allow read, write: if request.auth != null && request.auth.uid == userId;\n    }\n    match /users/{userId}/entries/{entryId} {\n      allow read, write: if request.auth != null && request.auth.uid == userId;\n    }\n    match /{document=**} {\n      allow read, write: if false;\n    }\n  }\n}"
+  }
+}

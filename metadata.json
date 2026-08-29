@@ -1,0 +1,6 @@
+{
+  "name": "Gemini AI Journal & Reflections",
+  "description": "User-authenticated multi-turn AI journal and reflection workspace with Firebase Authentication, owner-isolated Cloud Firestore persistence, and Gemini 3.6 Flash intelligent summaries.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

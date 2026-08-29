@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    background-color: #E4E3E0;
+    color: #141414;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  .font-serif {
+    font-family: 'Newsreader', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  }
+}
+
+/* Custom scrollbars for technical data grid look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #D9D8D5;
+}
+::-webkit-scrollbar-thumb {
+  background: #141414;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
